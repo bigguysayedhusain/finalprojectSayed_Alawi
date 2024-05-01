@@ -1,0 +1,114 @@
+/* General Layout and Colors */
+body {
+    font-family: 'Roboto', sans-serif;
+    color: #333333;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+}
+header {
+    background-color: #0044cc;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+}
+header .logo img {
+    height: 50px;
+}
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+nav ul li {
+    display: inline;
+    margin-left: 20px;
+}
+a {
+    color: #ff4500;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+/* Main Content and Sidebar */
+main {
+    margin-top: 60px; /* Adjust based on header height */
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+footer {
+    background-color: #333333;
+    color: #ffffff;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+}
+
+/* Buttons and Links */
+button, input[type="submit"] {
+    background-color: #0044cc;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px #666;
+}
+button:hover, input[type="submit"]:hover {
+    background-color: #003399;
+}
+
+/* Images and Thumbnails */
+img {
+    width: 100%;
+    transition: transform 0.3s ease;
+}
+img:hover {
+    transform: scale(1.05);
+}
+
+/* Forms */
+input[type="text"], input[type="search"], textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+}
+input[type="text"]:hover, input[type="search"]:hover, textarea:hover {
+    border-color: #ff4500;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    nav ul li {
+        display: block;
+        margin: 10px 0;
+    }
+    main {
+        flex-direction: column;
+    }
+}
+@media (max-width: 600px) {
+    header .logo img {
+        height: 40px;
+    }
+    nav ul li {
+        margin: 5px 0;
+    }
+}
