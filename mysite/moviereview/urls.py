@@ -1,8 +1,7 @@
 from django.urls import path
-from django.contrib.auth import views as auth_views
-from .views import HomeView
-
+from .views import FetchMovieData, MovieDetail
 
 urlpatterns = [
-    path('', HomeView.as_view(), name='home'),
+    path('', FetchMovieData.as_view(), name='home'),
+    path('movie/<str:imdb_id>/', MovieDetail.as_view(), name='movie_detail'),
 ]
