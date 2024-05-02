@@ -1,13 +1,31 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{{ movie.title }}</h1>
-    <img src="{{ movie.poster.url }}" alt="{{ movie.title }} Poster">
-    <p>{{ movie.description }}</p>
-    <p>Release Date: {{ movie.release_date }}</p>
-    <p>IMDb Rating: {{ movie.imdb_rating }}</p>
-    <p>Runtime: {{ movie.runtime }} minutes</p>
-    <p>Genres: {{ movie.genres }}</p>
-    <p>Stars: {{ movie.stars }}</p>
-    <p>Directors: {{ movie.directors }}</p>
+<main>
+    <div class="movie-image">
+        <img src="{{ movie.poster.url }}" alt="Poster for {{ movie.title }}">
+    </div>
+    <div class="movie-details">
+        <div class="movie-info">
+            <h1>{{ movie.title }}</h1>
+            <p><strong>Release Date:</strong> {{ movie.release_date }}</p>
+            <p><strong>IMDb Rating:</strong> {{ movie.imdb_rating }}</p>
+            <p><strong>Runtime:</strong> {{ movie.runtime }} minutes</p>
+            <p><strong>Genres:</strong> {{ movie.genres }}</p>
+        </div>
+        <div class="movie-info-section">
+            <h2>Description</h2>
+            <p>{{ movie.description }}</p>
+        </div>
+        <div class="movie-info-section">
+            <h2>Stars</h2>
+            <p>{{ movie.stars }}</p>
+        </div>
+        <div class="movie-info-section">
+            <h2>Directors</h2>
+            <p>{{ movie.directors }}</p>
+        </div>
+    </div>
+</main>
 {% endblock %}
+

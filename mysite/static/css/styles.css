@@ -40,16 +40,18 @@ a:hover {
 
 /* Main Content and Sidebar */
 main {
-    margin-top: 120px; /* Increased margin top due to larger header */
     display: flex;
-    justify-content: space-between;
+    flex-direction: row; /* Aligns children (image and details) in a row */
+    justify-content: center; /* Centers the children horizontally */
+    align-items: stretch; /* Stretches the children to match heights */
+    gap: 20px; /* Adds space between the children */
+    margin-top: 140px; /* Adjust for fixed header */
     padding: 20px;
 }
 footer {
     background-color: #333333; /* Kept the same for consistency */
     color: #ffffff;
     text-align: center;
-    padding: 10px;
     position: fixed;
     width: 100%;
     bottom: 0;
@@ -77,11 +79,9 @@ button:hover, input[type="submit"]:hover {
 
 /* Images and Thumbnails */
 img {
-    width: 100%;
-    transition: transform 0.3s ease;
-}
-img:hover {
-    transform: scale(1.05);
+    width: 100%; /* Ensures the image stretches to fill the container */
+    height: auto; /* Maintains aspect ratio */
+    display: block; /* Removes bottom space/gap */
 }
 
 /* Forms */
@@ -94,7 +94,41 @@ input[type="text"], input[type="search"], textarea {
 input[type="text"]:hover, input[type="search"]:hover, textarea:hover {
     border-color: #e63946; /* Accent color for input focus */
 }
+.movie-image {
+    flex: 1; /* Allows the image to grow */
+    max-width: 600px; /* Maximum width of the image */
+}
 
+.movie-details {
+    flex: 2; /* Allows the details box to take twice the space of the image */
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: #fff; /* Adds background color */
+    border-radius: 8px; /* Rounded corners for the box */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Adds shadow for depth */
+}
+
+.movie-info {
+    margin-bottom: 10px;
+}
+
+.movie-info h1, .movie-info p {
+    color: #293241;
+}
+
+.movie-info h1 {
+    margin-bottom: 0.5em;
+}
+
+.movie-info p {
+    margin-bottom: 0.25em;
+}
+
+/* Add some space between sections */
+.movie-info-section {
+    margin-top: 20px;
+}
 /* Responsive Design */
 @media (max-width: 1024px) {
     header .logo img {
