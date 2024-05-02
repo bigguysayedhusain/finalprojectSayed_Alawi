@@ -8,7 +8,7 @@ import requests
 
 class FetchMovieData(View):
     form_class = MovieIDForm
-    template_name = 'home.html'
+    template_name = 'moviereview/home.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -45,16 +45,37 @@ class FetchMovieData(View):
         return render(request, self.template_name, {'form': form})
 
     def fetch_movie_details(self, imdb_id):
-        # Implementation remains the same as provided previously
-        pass
+        url = "https://movies-tv-shows-database.p.rapidapi.com/"
+        querystring = {"movieid": imdb_id}
+        headers = {
+            "Type": "get-movie-details",
+            "X-RapidAPI-Key": "192b8070d4mshdce2e96668d0f65p180a1ejsn041cca2faf18",
+            "X-RapidAPI-Host": "movies-tv-shows-database.p.rapidapi.com"
+        }
+        response = requests.get(url, headers=headers, params=querystring)
+        if response.status_code == 200:
+            return response.json()
+        else:
+            return {}  # Return an empty dictionary if there's an error
 
     def fetch_movie_poster(self, imdb_id):
-        # Implementation remains the same as provided previously
-        pass
+        url = "https://movies-tv-shows-database.p.rapidapi.com/"
+        querystring = {"movieid": imdb_id}
+        headers = {
+            "Type": "get-movies-images-by-imdb",
+            "X-RapidAPI-Key": "192b8070d4mshdce2e96668d0f65p180a1ejsn041cca2faf18",
+            "X-RapidAPI-Host": "movies-tv-shows-database.p.rapidapi.com"
+        }
+        response = requests.get(url, headers=headers, params=querystring)
+        if response.status_code == 200:
+            poster_data = response.json()
+            return poster_data.get('poster', '')  # Safely return the poster URL or an empty string
+        else:
+            return ''  # Return an empty string if there's an error
 
 
 class MovieDetail(View):
-    template_name = 'movie_detail.html'
+    template_name = 'moviereview/movie_detail.html'
 
     def get(self, request, imdb_id, *args, **kwargs):
         movie = Movie.objects.get(imdb_id=imdb_id)
