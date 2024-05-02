@@ -1,24 +1,25 @@
 /* General Layout and Colors */
 body {
     font-family: 'Roboto', sans-serif;
-    color: #333333;
-    background-color: #f0f0f0;
+    color: #333333; /* Maintaining general text color */
+    background-color: #f0f0f0; /* Light background to ensure readability */
     margin: 0;
     padding: 0;
 }
 header {
-    background-color: #0044cc;
+    background-color: #293241; /* Updated to a dark slate color matching the logo background */
     color: #ffffff;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
+    padding: 10px 10px; /* Increased padding to allow more space */
     position: fixed;
     width: 100%;
     top: 0;
+    box-sizing: border-box;
 }
 header .logo img {
-    height: 50px;
+    height: 120px; /* Increased logo size */
 }
 nav ul {
     list-style: none;
@@ -30,7 +31,7 @@ nav ul li {
     margin-left: 20px;
 }
 a {
-    color: #ff4500;
+    color: #89c2d9; /* Changed link color to a bright red for better visibility and contrast */
     text-decoration: none;
 }
 a:hover {
@@ -39,13 +40,13 @@ a:hover {
 
 /* Main Content and Sidebar */
 main {
-    margin-top: 60px; /* Adjust based on header height */
+    margin-top: 120px; /* Increased margin top due to larger header */
     display: flex;
     justify-content: space-between;
     padding: 20px;
 }
 footer {
-    background-color: #333333;
+    background-color: #333333; /* Kept the same for consistency */
     color: #ffffff;
     text-align: center;
     padding: 10px;
@@ -62,7 +63,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Buttons and Links */
 button, input[type="submit"] {
-    background-color: #0044cc;
+    background-color: #293241; /* Button color matched to the header */
     color: #ffffff;
     border: none;
     border-radius: 5px;
@@ -71,7 +72,7 @@ button, input[type="submit"] {
     box-shadow: 2px 2px 5px #666;
 }
 button:hover, input[type="submit"]:hover {
-    background-color: #003399;
+    background-color: #1d2c34; /* Darker shade for hover */
 }
 
 /* Images and Thumbnails */
@@ -91,14 +92,20 @@ input[type="text"], input[type="search"], textarea {
     border: 1px solid #ccc;
 }
 input[type="text"]:hover, input[type="search"]:hover, textarea:hover {
-    border-color: #ff4500;
+    border-color: #e63946; /* Accent color for input focus */
 }
 
 /* Responsive Design */
 @media (max-width: 1024px) {
+    header .logo img {
+        height: 80px; /* Slightly smaller logo for tablet */
+    }
     nav ul li {
         display: block;
         margin: 10px 0;
+    }
+    header {
+        padding: 10px 20px; /* Adjusted padding for smaller screens */
     }
     main {
         flex-direction: column;
@@ -106,7 +113,7 @@ input[type="text"]:hover, input[type="search"]:hover, textarea:hover {
 }
 @media (max-width: 600px) {
     header .logo img {
-        height: 40px;
+        height: 60px; /* Smaller logo for mobile */
     }
     nav ul li {
         margin: 5px 0;
