@@ -134,6 +134,13 @@ input[type="text"]:hover, input[type="search"]:hover, textarea:hover {
     padding-top: 150px; /* Adjust based on your header size */
 }
 /* Search Container */
+.search-result-container {
+    flex-direction: column;
+    display: block; /* Ensures it behaves as a standard block-level element */
+    width: 100%; /* Takes full width to match the layout of the page */
+    margin: auto; /* Centers the container if needed */
+    padding: 0; /* Resets padding */
+}
 .search-container {
     width: 100%;
     padding: 20px;
@@ -155,7 +162,6 @@ input[type="text"]:hover, input[type="search"]:hover, textarea:hover {
     gap: 20px; /* Provides space between boxes */
     padding: 20px;
 }
-
 .movie-result {
     background-color: #f8f9fa;
     border: 1px solid #dee2e6;
@@ -179,27 +185,27 @@ input[type="text"]:hover, input[type="search"]:hover, textarea:hover {
     text-decoration: none; /* Removes underline from links */
     color: inherit; /* Ensures text color is consistent */
 }
-/* Responsive Design */
-@media (max-width: 1024px) {
-    header .logo img {
-        height: 80px; /* Slightly smaller logo for tablet */
-    }
-    nav ul li {
-        display: block;
-        margin: 10px 0;
-    }
-    header {
-        padding: 10px 20px; /* Adjusted padding for smaller screens */
-    }
-    main {
-        flex-direction: column;
-    }
-}
-@media (max-width: 600px) {
-    header .logo img {
-        height: 60px; /* Smaller logo for mobile */
-    }
-    nav ul li {
-        margin: 5px 0;
-    }
-}
+/*!* Responsive Design *!*/
+/*@media (max-width: 1024px) {*/
+/*    header .logo img {*/
+/*        height: 80px; !* Slightly smaller logo for tablet *!*/
+/*    }*/
+/*    nav ul li {*/
+/*        display: block;*/
+/*        margin: 10px 0;*/
+/*    }*/
+/*    header {*/
+/*        padding: 10px 20px; !* Adjusted padding for smaller screens *!*/
+/*    }*/
+/*    main {*/
+/*        flex-direction: column;*/
+/*    }*/
+/*}*/
+/*@media (max-width: 600px) {*/
+/*    header .logo img {*/
+/*        height: 60px; !* Smaller logo for mobile *!*/
+/*    }*/
+/*    nav ul li {*/
+/*        margin: 5px 0;*/
+/*    }*/
+/*}*/
