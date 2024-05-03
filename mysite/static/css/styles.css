@@ -185,6 +185,43 @@ input[type="text"]:hover, input[type="search"]:hover, textarea:hover {
     text-decoration: none; /* Removes underline from links */
     color: inherit; /* Ensures text color is consistent */
 }
+.signup-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh; /*Adjust height to ensure the form is vertically centered*/
+    margin-top: 20px;
+}
+.signup-content form {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Adjust based on preference */
+    max-width: 800px; /* Maximum width of the form */
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Optional: adds shadow for depth */
+    border-radius: 8px; /* Rounded corners */
+    background-color: #fff; /* Background color for the form */
+}
+
+.signup-content form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.signup-content form button {
+    padding: 10px;
+    margin-top: 20px;
+    color: white;
+    background-color: #007BFF; /* Bootstrap primary color */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.signup-content form button:hover {
+    background-color: #0056b3; /* Darken button color on hover */
+}
 /*!* Responsive Design *!*/
 /*@media (max-width: 1024px) {*/
 /*    header .logo img {*/
