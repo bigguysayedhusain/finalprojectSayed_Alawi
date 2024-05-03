@@ -1,16 +1,20 @@
-from django.views import View
-from django.shortcuts import render
+from django.views import View, generic
+from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from django.http import Http404
 from django.core.files.base import ContentFile
+from django.urls import reverse_lazy
+from django.contrib.auth import logout
 import requests
-from .forms import MovieSearchForm
+from .forms import MovieSearchForm, SignUpForm
 from .models import Movie
 
 
 class HomePageView(TemplateView):
     template_name = 'moviereview/home.html'
 
+class MyPortalView(TemplateView):
+    template_name = 'moviereview/my_portal.html'
 
 class FetchMovieData(View):
     form_class = MovieSearchForm
@@ -134,3 +138,14 @@ class MovieDetail(View):
                 })
         return streaming_services
         # return []
+
+
+class SignUpView(generic.CreateView):
+    form_class = SignUpForm
+    success_url = reverse_lazy('login')
+    template_name = 'moviereview/registration/signup.html'
+
+
+def logout_view(request):
+    logout(request)
+    return render(request, 'moviereview/registration/logout.html')

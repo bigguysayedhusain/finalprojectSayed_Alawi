@@ -14,10 +14,41 @@
         </div>
         <nav>
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Movies</a></li>
-                <li><a href="#">Top Rated</a></li>
-                <li><a href="{% url 'search_movie' %}">Search</a></li>
+                {% if user.is_authenticated %}
+                    <li>
+                        <a href="{% url 'home' %}">Home</a>
+                    </li>
+                        <a href="#">Movies</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'search_movie' %}">Search</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'myportal' %}">My Portal</a>
+                    </li>
+                    <li>
+                        <form action="{% url 'logout' %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit">Logout</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li>
+                        <a href="{% url 'home' %}">Home</a>
+                    </li>
+                    <li>
+                        <a href="#">Movies</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'search_movie' %}">Search</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'signup' %}">Signup</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'login' %}">Login</a>
+                    </li>
+                {% endif %}
             </ul>
         </nav>
         <div class="logo">
