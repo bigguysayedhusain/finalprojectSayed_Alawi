@@ -25,7 +25,19 @@
             <h2>Directors</h2>
             <p>{{ movie.directors }}</p>
         </div>
+        <div class="movie-info-section">
+            <h2>Streaming Availability</h2>
+            {% if streaming_services %}
+                <ul>
+                    {% for service in streaming_services %}
+                    <li><a href="{{ service.link }}" target="_blank">{{ service.service }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>There are currently no streaming services available for this movie offering UHD quality with the
+                    option to rent or view on a subscription basis.</p>
+            {% endif %}
+        </div>
     </div>
 </main>
 {% endblock %}
-

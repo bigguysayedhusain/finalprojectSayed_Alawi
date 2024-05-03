@@ -49,6 +49,7 @@ class MovieDetail(View):
         try:
             # Try to get the movie from the database
             movie = Movie.objects.get(imdb_id=imdb_id)
+            streaming_services = self.fetch_streaming_info(imdb_id)
         except Movie.DoesNotExist:
             # If the movie does not exist, fetch from API and save it
             movie_details = self.fetch_movie_details(imdb_id)
@@ -80,7 +81,10 @@ class MovieDetail(View):
 
             movie.save()
 
-        return render(request, self.template_name, {'movie': movie})
+            # Fetch streaming information every time, irrespective of database existence
+            streaming_services = self.fetch_streaming_info(imdb_id)
+
+        return render(request, self.template_name, {'movie': movie, 'streaming_services': streaming_services})
 
     def fetch_movie_details(self, imdb_id):
         url = "https://movies-tv-shows-database.p.rapidapi.com/"
@@ -107,3 +111,26 @@ class MovieDetail(View):
         if response.status_code == 200:
             return response.json().get('poster', '')
         return ''
+
+    def fetch_streaming_info(self, imdb_id):
+        url = "https://streaming-availability.p.rapidapi.com/get"
+        querystring = {"output_language": "en", "imdb_id": imdb_id}
+        headers = {
+            "X-RapidAPI-Key": "192b8070d4mshdce2e96668d0f65p180a1ejsn041cca2faf18",
+            "X-RapidAPI-Host": "streaming-availability.p.rapidapi.com"
+        }
+        response = requests.get(url, headers=headers, params=querystring)
+        data = response.json()['result']
+
+        us_streaming_info = data.get('streamingInfo', {}).get('us', {})
+
+        streaming_services = []
+        for service in us_streaming_info:
+            if (service.get('quality', 'uhd') == "uhd") and (service['streamingType'] == "rent" or
+                                                             service['streamingType'] == "subscription"):
+                streaming_services.append({
+                    'service': service['service'].capitalize(),
+                    'link': service['link']
+                })
+        return streaming_services
+        # return []
