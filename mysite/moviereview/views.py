@@ -1,14 +1,20 @@
 from django.views import View
-from django.shortcuts import render, redirect
-from .forms import MovieIDForm
-from .models import Movie
+from django.shortcuts import render
+from django.views.generic import TemplateView
+from django.http import Http404
 from django.core.files.base import ContentFile
 import requests
+from .forms import MovieSearchForm
+from .models import Movie
+
+
+class HomePageView(TemplateView):
+    template_name = 'moviereview/home.html'
 
 
 class FetchMovieData(View):
-    form_class = MovieIDForm
-    template_name = 'moviereview/home.html'
+    form_class = MovieSearchForm
+    template_name = 'moviereview/search_movie.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
@@ -17,13 +23,43 @@ class FetchMovieData(View):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         if form.is_valid():
-            imdb_id = form.cleaned_data['imdb_id']
-            movie_details = self.fetch_movie_details(imdb_id)
-            poster_url = self.fetch_movie_poster(imdb_id)
+            supplied_movie_name = form.cleaned_data['supplied_movie_name']
+            movies = self.search_movies_by_title(supplied_movie_name)
+            return render(request, self.template_name, {'form': form, 'movies': movies})
+        return render(request, self.template_name, {'form': form})
 
+    def search_movies_by_title(self, movie_name):
+        url = "https://movies-tv-shows-database.p.rapidapi.com/"
+        querystring = {"title": movie_name}
+        headers = {
+            "Type": "get-movies-by-title",
+            "X-RapidAPI-Key": "192b8070d4mshdce2e96668d0f65p180a1ejsn041cca2faf18",
+            "X-RapidAPI-Host": "movies-tv-shows-database.p.rapidapi.com"
+        }
+        response = requests.get(url, headers=headers, params=querystring)
+        if response.status_code == 200:
+            return response.json()['movie_results']
+        return []
+
+
+class MovieDetail(View):
+    template_name = 'moviereview/movie_detail.html'
+
+    def get(self, request, imdb_id, *args, **kwargs):
+        try:
+            # Try to get the movie from the database
+            movie = Movie.objects.get(imdb_id=imdb_id)
+        except Movie.DoesNotExist:
+            # If the movie does not exist, fetch from API and save it
+            movie_details = self.fetch_movie_details(imdb_id)
+            if not movie_details:
+                raise Http404("Movie not found in external database.")
+
+            poster_url = self.fetch_movie_poster(imdb_id)
             stars = movie_details.get('stars', [])[:5]
             directors = movie_details.get('directors', [])[:5]
 
+            # Create a new Movie instance
             movie = Movie(
                 title=movie_details.get('title', ''),
                 description=movie_details.get('description', ''),
@@ -36,13 +72,15 @@ class FetchMovieData(View):
                 directors=", ".join(directors),
             )
 
-            response = requests.get(poster_url)
-            if response.status_code == 200:
-                movie.poster.save(f"{imdb_id}_poster.jpg", ContentFile(response.content), save=False)
+            # Fetch and save the poster if the URL is available
+            if poster_url:
+                response = requests.get(poster_url)
+                if response.status_code == 200:
+                    movie.poster.save(f"{imdb_id}_poster.jpg", ContentFile(response.content), save=True)
+
             movie.save()
 
-            return redirect('movie_detail', imdb_id=imdb_id)
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'movie': movie})
 
     def fetch_movie_details(self, imdb_id):
         url = "https://movies-tv-shows-database.p.rapidapi.com/"
@@ -55,8 +93,7 @@ class FetchMovieData(View):
         response = requests.get(url, headers=headers, params=querystring)
         if response.status_code == 200:
             return response.json()
-        else:
-            return {}  # Return an empty dictionary if there's an error
+        return {}
 
     def fetch_movie_poster(self, imdb_id):
         url = "https://movies-tv-shows-database.p.rapidapi.com/"
@@ -68,15 +105,5 @@ class FetchMovieData(View):
         }
         response = requests.get(url, headers=headers, params=querystring)
         if response.status_code == 200:
-            poster_data = response.json()
-            return poster_data.get('poster', '')  # Safely return the poster URL or an empty string
-        else:
-            return ''  # Return an empty string if there's an error
-
-
-class MovieDetail(View):
-    template_name = 'moviereview/movie_detail.html'
-
-    def get(self, request, imdb_id, *args, **kwargs):
-        movie = Movie.objects.get(imdb_id=imdb_id)
-        return render(request, self.template_name, {'movie': movie})
+            return response.json().get('poster', '')
+        return ''

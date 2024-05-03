@@ -45,8 +45,8 @@ main {
     justify-content: center; /* Centers the children horizontally */
     align-items: stretch; /* Stretches the children to match heights */
     gap: 20px; /* Adds space between the children */
-    margin-top: 140px; /* Adjust for fixed header */
-    padding: 20px;
+    margin-top: 20px; /* Adjust for fixed header */
+    padding: 55px;
 }
 footer {
     background-color: #333333; /* Kept the same for consistency */
@@ -127,7 +127,57 @@ input[type="text"]:hover, input[type="search"]:hover, textarea:hover {
 
 /* Add some space between sections */
 .movie-info-section {
-    margin-top: 20px;
+    /*margin-top: 20px;*/
+}
+.home-container {
+    text-align: center;
+    padding-top: 150px; /* Adjust based on your header size */
+}
+/* Search Container */
+.search-container {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+    margin-top: 150px; /* Adjust the margin to avoid overlapping with a fixed header */
+}
+
+.search-container form {
+    margin: 0 auto;
+    max-width: 600px;
+}
+
+/* Results Container */
+.results-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px; /* Provides space between boxes */
+    padding: 20px;
+}
+
+.movie-result {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    cursor: pointer;
+    text-align: center;
+}
+
+.movie-result:hover {
+    background-color: #e2e6ea; /* Slightly darker on hover to indicate interactivity */
+}
+
+.movie-result h2 {
+    font-size: 18px; /* Moderate font size for titles */
+    color: #333; /* Dark grey for text */
+    margin: 0;
+}
+.movie-link {
+    text-decoration: none; /* Removes underline from links */
+    color: inherit; /* Ensures text color is consistent */
 }
 /* Responsive Design */
 @media (max-width: 1024px) {

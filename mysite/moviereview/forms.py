@@ -1,5 +1,5 @@
 from django import forms
 
 
-class MovieIDForm(forms.Form):
-    imdb_id = forms.CharField(label='IMDb ID', max_length=20)
+class MovieSearchForm(forms.Form):
+    supplied_movie_name = forms.CharField(label='Movie Name', max_length=100)
