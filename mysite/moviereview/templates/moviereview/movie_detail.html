@@ -10,6 +10,11 @@
             <h1>{{ movie.title }}</h1>
             <p><strong>Release Date:</strong> {{ movie.release_date }}</p>
             <p><strong>IMDb Rating:</strong> {{ movie.imdb_rating }} / 10</p>
+            {% if average_rating %}
+                <p><strong>User Average Rating:</strong> {{ average_rating|floatformat:1 }} / 10</p>
+            {% else %}
+                <p><strong>User Average Rating:</strong> Not available</p>
+            {% endif %}
             <p><strong>Runtime:</strong> {{ movie.runtime }} minutes</p>
             <p><strong>Genres:</strong> {{ movie.genres }}</p>
         </div>
@@ -34,8 +39,29 @@
                     {% endfor %}
                 </ul>
             {% else %}
-                <p>There are currently no streaming services available for this movie offering UHD quality with the
-                    option to rent or view on a subscription basis.</p>
+                <p>No streaming services available for this movie.</p>
+            {% endif %}
+        </div>
+        <div class="movie-info-section">
+            <h2>Reviews</h2>
+            {% if reviews %}
+                <ul>
+                    {% for review in reviews %}
+                    <li>{{ review.user.username }} ({{ review.rating }}/10): "{{ review.text }}"</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No reviews yet.</p>
+            {% endif %}
+            {% if user.is_authenticated %}
+                <div id="review-form">
+                    <h2>Add a Review</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit">Submit Review</button>
+                    </form>
+                </div>
             {% endif %}
         </div>
     </div>

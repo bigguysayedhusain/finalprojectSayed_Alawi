@@ -5,9 +5,10 @@ from django.http import Http404
 from django.core.files.base import ContentFile
 from django.urls import reverse_lazy
 from django.contrib.auth import logout
+from django.db.models import Avg
 import requests
-from .forms import MovieSearchForm, SignUpForm
-from .models import Movie
+from .forms import MovieSearchForm, SignUpForm, ReviewForm
+from .models import Movie, Review
 
 
 class HomePageView(TemplateView):
@@ -48,47 +49,83 @@ class FetchMovieData(View):
 
 class MovieDetail(View):
     template_name = 'moviereview/movie_detail.html'
+    form_class = ReviewForm
 
     def get(self, request, imdb_id, *args, **kwargs):
         try:
-            # Try to get the movie from the database
             movie = Movie.objects.get(imdb_id=imdb_id)
+            reviews = Review.objects.filter(movie=movie)
+            average_rating = reviews.aggregate(Avg('rating'))['rating__avg'] if reviews.exists() else None
             streaming_services = self.fetch_streaming_info(imdb_id)
         except Movie.DoesNotExist:
-            # If the movie does not exist, fetch from API and save it
-            movie_details = self.fetch_movie_details(imdb_id)
-            if not movie_details:
-                raise Http404("Movie not found in external database.")
+            movie, streaming_services = self.handle_movie_not_found(imdb_id)
+            reviews = []
+            average_rating = None
 
-            poster_url = self.fetch_movie_poster(imdb_id)
-            stars = movie_details.get('stars', [])[:5]
-            directors = movie_details.get('directors', [])[:5]
+        form = self.form_class()
+        return render(request, self.template_name, {
+            'movie': movie,
+            'reviews': reviews,
+            'form': form,
+            'average_rating': average_rating,
+            'streaming_services': streaming_services
+        })
 
-            # Create a new Movie instance
-            movie = Movie(
-                title=movie_details.get('title', ''),
-                description=movie_details.get('description', ''),
-                release_date=movie_details.get('release_date', '1900-01-01'),
-                imdb_id=imdb_id,
-                imdb_rating=float(movie_details.get('imdb_rating', 0.0)),
-                runtime=int(movie_details.get('runtime', 0)),
-                genres=", ".join(movie_details.get('genres', [])),
-                stars=", ".join(stars),
-                directors=", ".join(directors),
-            )
+    def post(self, request, imdb_id, *args, **kwargs):
+        movie = self.get_movie(imdb_id)
+        form = self.form_class(request.POST)
+        if form.is_valid() and request.user.is_authenticated:
+            review = form.save(commit=False)
+            review.movie = movie
+            review.user = request.user
+            review.save()
+            return redirect('movie_detail', imdb_id=imdb_id)
 
-            # Fetch and save the poster if the URL is available
-            if poster_url:
-                response = requests.get(poster_url)
-                if response.status_code == 200:
-                    movie.poster.save(f"{imdb_id}_poster.jpg", ContentFile(response.content), save=True)
+        reviews = Review.objects.filter(movie=movie)
+        average_rating = reviews.aggregate(Avg('rating'))['rating__avg'] if reviews.exists() else None
+        streaming_services = self.fetch_streaming_info(imdb_id)
+        return render(request, self.template_name, {
+            'movie': movie,
+            'reviews': reviews,
+            'form': form,
+            'average_rating': average_rating,
+            'streaming_services': streaming_services
+        })
 
-            movie.save()
+    def get_movie(self, imdb_id):
+        try:
+            return Movie.objects.get(imdb_id=imdb_id)
+        except Movie.DoesNotExist:
+            raise Http404("Movie not found.")
 
-            # Fetch streaming information every time, irrespective of database existence
-            streaming_services = self.fetch_streaming_info(imdb_id)
+    def handle_movie_not_found(self, imdb_id):
+        movie_details = self.fetch_movie_details(imdb_id)
+        if not movie_details:
+            raise Http404("Movie not found in external database.")
 
-        return render(request, self.template_name, {'movie': movie, 'streaming_services': streaming_services})
+        movie = self.create_movie_from_details(movie_details, imdb_id)
+        streaming_services = self.fetch_streaming_info(imdb_id)
+        return movie, streaming_services
+
+    def create_movie_from_details(self, movie_details, imdb_id):
+        poster_url = self.fetch_movie_poster(imdb_id)
+        movie = Movie(
+            title=movie_details.get('title', ''),
+            description=movie_details.get('description', ''),
+            release_date=movie_details.get('release_date', '1900-01-01'),
+            imdb_id=imdb_id,
+            imdb_rating=float(movie_details.get('imdb_rating', 0.0)),
+            runtime=int(movie_details.get('runtime', 0)),
+            genres=", ".join(movie_details.get('genres', [])),
+            stars=", ".join(movie_details.get('stars', [])[:5]),
+            directors=", ".join(movie_details.get('directors', [])[:5]),
+        )
+        movie.save()
+        if poster_url:
+            response = requests.get(poster_url)
+            if response.status_code == 200:
+                movie.poster.save(f"{imdb_id}_poster.jpg", ContentFile(response.content), save=True)
+        return movie
 
     def fetch_movie_details(self, imdb_id):
         url = "https://movies-tv-shows-database.p.rapidapi.com/"
