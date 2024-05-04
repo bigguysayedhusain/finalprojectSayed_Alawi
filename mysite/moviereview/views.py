@@ -1,6 +1,6 @@
 from django.views import View, generic
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from django.http import Http404
 from django.core.files.base import ContentFile
 from django.urls import reverse_lazy
@@ -177,6 +177,19 @@ class MovieDetail(View):
                 })
         return streaming_services
         # return []
+
+
+class ReviewedMoviesView(ListView):
+    model = Movie
+    template_name = 'moviereview/reviewed_movies.html'
+    context_object_name = 'movies'
+
+    def get_queryset(self):
+        """
+        Override the default queryset to return only movies with reviews,
+        and annotate each movie with its average rating.
+        """
+        return Movie.objects.annotate(avg_rating=Avg('reviews__rating')).filter(reviews__isnull=False).distinct()
 
 
 class SignUpView(generic.CreateView):
