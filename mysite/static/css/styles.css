@@ -41,7 +41,7 @@ a:hover {
 /* Main Content and Sidebar */
 main {
     display: flex;
-    flex-direction: row; /* Aligns children (image and details) in a row */
+    /*flex-direction: row; !* Aligns children (image and details) in a row *!*/
     justify-content: center; /* Centers the children horizontally */
     align-items: stretch; /* Stretches the children to match heights */
     gap: 20px; /* Adds space between the children */
@@ -127,7 +127,8 @@ input[type="text"]:hover, input[type="search"]:hover, textarea:hover {
 
 /* Add some space between sections */
 .movie-info-section {
-    /*margin-top: 20px;*/
+    margin-top: 0px;
+    /*margin-bottom: -20px;*/
 }
 .home-container {
     text-align: center;
@@ -307,4 +308,60 @@ input[type="text"]:hover, input[type="search"]:hover, textarea:hover {
 
 .logout-page a:hover {
     background-color: #89c2d9; /* Darker shade on hover */
+}
+.logout-button {
+    all: unset;
+    background: none;
+    color: #89c2d9;
+    border: none;
+    padding: 0;
+    font: inherit;
+    text-decoration: none;
+}
+
+.logout-button:hover {
+    text-decoration: underline;
+}
+
+.reviews-section {
+    background-color: #f8f9fa; /* Light background color for the reviews section */
+    padding: 20px;
+    margin-top: 20px; /* Space between movie details and reviews */
+}
+
+.reviews-section h2 {
+    color: #293241; /* Consistent color for headings */
+    padding-bottom: 10px; /* Space below the heading */
+    border-bottom: 2px solid #ccc; /* Line under the heading */
+}
+
+.reviews-section ul {
+    list-style-type: none; /* Remove bullets */
+    padding: 0;
+}
+
+.reviews-section li {
+    padding: 10px;
+    border-bottom: 1px solid #eee; /* Light line between reviews */
+    margin-bottom: 5px;
+}
+
+.reviews-section li:last-child {
+    border-bottom: none; /* No border for the last item */
+}
+
+/*#review-form {*/
+/*    padding-top: 20px; !* Space above the form *!*/
+/*}*/
+
+.flow-direction-column {
+    display: flex;
+    flex-direction: column;
+}
+.flow-direction-row {
+    display: flex;
+    flex-direction: row;
+}
+.gap {
+    gap: 50px;
 }

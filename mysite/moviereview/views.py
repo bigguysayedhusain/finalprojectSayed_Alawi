@@ -14,8 +14,10 @@ from .models import Movie, Review
 class HomePageView(TemplateView):
     template_name = 'moviereview/home.html'
 
+
 class MyPortalView(TemplateView):
     template_name = 'moviereview/my_portal.html'
+
 
 class FetchMovieData(View):
     form_class = MovieSearchForm

@@ -1,69 +1,71 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<main>
-    <div class="movie-image">
-        <img src="{{ movie.poster.url }}" alt="Poster for {{ movie.title }}">
+<main class="flow-direction-column">
+    <div class="flow-direction-row">
+        <div class="movie-image">
+            <img src="{{ movie.poster.url }}" alt="Poster for {{ movie.title }}">
+        </div>
+        <div class="movie-details">
+            <div class="movie-info">
+                <h1>{{ movie.title }}</h1>
+                <p><strong>Release Date:</strong> {{ movie.release_date }}</p>
+                <p><strong>IMDb Rating:</strong> {{ movie.imdb_rating }} / 10</p>
+                {% if average_rating %}
+                    <p><strong>User Average Rating:</strong> {{ average_rating|floatformat:1 }} / 10</p>
+                {% else %}
+                    <p><strong>User Average Rating:</strong> Not available</p>
+                {% endif %}
+                <p><strong>Runtime:</strong> {{ movie.runtime }} minutes</p>
+                <p><strong>Genres:</strong> {{ movie.genres }}</p>
+            </div>
+            <div class="movie-info-section">
+                <h2>Description</h2>
+                <p>{{ movie.description }}</p>
+            </div>
+            <div class="movie-info-section">
+                <h2>Stars</h2>
+                <p>{{ movie.stars }}</p>
+            </div>
+            <div class="movie-info-section">
+                <h2>Directors</h2>
+                <p>{{ movie.directors }}</p>
+            </div>
+            <div class="movie-info-section">
+                <h2>Streaming Availability</h2>
+                {% if streaming_services %}
+                    <ul class="flow-direction-row gap">
+                        {% for service in streaming_services %}
+                        <li><a href="{{ service.link }}" target="_blank">{{ service.service }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No streaming services available for this movie.</p>
+                {% endif %}
+            </div>
+        </div>
     </div>
-    <div class="movie-details">
-        <div class="movie-info">
-            <h1>{{ movie.title }}</h1>
-            <p><strong>Release Date:</strong> {{ movie.release_date }}</p>
-            <p><strong>IMDb Rating:</strong> {{ movie.imdb_rating }} / 10</p>
-            {% if average_rating %}
-                <p><strong>User Average Rating:</strong> {{ average_rating|floatformat:1 }} / 10</p>
-            {% else %}
-                <p><strong>User Average Rating:</strong> Not available</p>
-            {% endif %}
-            <p><strong>Runtime:</strong> {{ movie.runtime }} minutes</p>
-            <p><strong>Genres:</strong> {{ movie.genres }}</p>
-        </div>
-        <div class="movie-info-section">
-            <h2>Description</h2>
-            <p>{{ movie.description }}</p>
-        </div>
-        <div class="movie-info-section">
-            <h2>Stars</h2>
-            <p>{{ movie.stars }}</p>
-        </div>
-        <div class="movie-info-section">
-            <h2>Directors</h2>
-            <p>{{ movie.directors }}</p>
-        </div>
-        <div class="movie-info-section">
-            <h2>Streaming Availability</h2>
-            {% if streaming_services %}
-                <ul>
-                    {% for service in streaming_services %}
-                    <li><a href="{{ service.link }}" target="_blank">{{ service.service }}</a></li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p>No streaming services available for this movie.</p>
-            {% endif %}
-        </div>
-        <div class="movie-info-section">
-            <h2>Reviews</h2>
-            {% if reviews %}
-                <ul>
-                    {% for review in reviews %}
-                    <li>{{ review.user.username }} ({{ review.rating }}/10): "{{ review.text }}"</li>
-                    {% endfor %}
-                </ul>
-            {% else %}
-                <p>No reviews yet.</p>
-            {% endif %}
-            {% if user.is_authenticated %}
-                <div id="review-form">
-                    <h2>Add a Review</h2>
-                    <form method="post">
-                        {% csrf_token %}
-                        {{ form.as_p }}
-                        <button type="submit">Submit Review</button>
-                    </form>
-                </div>
-            {% endif %}
-        </div>
+    <div class="reviews-section">
+        <h2>Reviews</h2>
+        {% if reviews %}
+            <ul>
+                {% for review in reviews %}
+                <li>{{ review.user.username }} ({{ review.rating }}/10): "{{ review.text }}"</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No reviews yet.</p>
+        {% endif %}
+        {% if user.is_authenticated %}
+            <div id="review-form">
+                <h2>Add a Review</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Submit Review</button>
+                </form>
+            </div>
+        {% endif %}
     </div>
 </main>
 {% endblock %}

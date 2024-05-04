@@ -1,5 +1,5 @@
-{% load static %}
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -18,7 +18,8 @@
                     <li>
                         <a href="{% url 'home' %}">Home</a>
                     </li>
-                        <a href="#">Movies</a>
+                    <li>
+                        <a href="#">Reviewed Movies</a>
                     </li>
                     <li>
                         <a href="{% url 'search_movie' %}">Search</a>
@@ -27,9 +28,9 @@
                         <a href="{% url 'myportal' %}">My Portal</a>
                     </li>
                     <li>
-                        <form action="{% url 'logout' %}" method="post">
+                        <form action="{% url 'logout' %}" method="post"  style="display: inline;">
                             {% csrf_token %}
-                            <button type="submit">Logout</button>
+                            <button type="submit"  class="logout-button">Logout</button>
                         </form>
                     </li>
                 {% else %}
@@ -37,7 +38,7 @@
                         <a href="{% url 'home' %}">Home</a>
                     </li>
                     <li>
-                        <a href="#">Movies</a>
+                        <a href="#">Reviewed Movies</a>
                     </li>
                     <li>
                         <a href="{% url 'search_movie' %}">Search</a>

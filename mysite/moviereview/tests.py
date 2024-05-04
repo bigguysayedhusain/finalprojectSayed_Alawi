@@ -1,27 +1,11 @@
-import requests
+# TODO create Reviewed Movie page
 
-url = "https://streaming-availability.p.rapidapi.com/get"
-querystring = {"output_language": "en", "imdb_id": 'tt0137523'}
-headers = {
-    "X-RapidAPI-Key": "192b8070d4mshdce2e96668d0f65p180a1ejsn041cca2faf18",
-    "X-RapidAPI-Host": "streaming-availability.p.rapidapi.com"
-}
-response = requests.get(url, headers=headers, params=querystring)
-data = response.json()['result']
+# TODO Create My portal page
 
-us_streaming_info = data.get('streamingInfo', {}).get('us', {})
+# TODO Create Home page
 
-streaming_services = []
-for service in us_streaming_info:
-    if (service.get('quality', 'uhd') == "uhd") and (service['streamingType'] == "rent" or
-                                                     service['streamingType'] == "subscription"):
-        streaming_services.append({
-                            'service': service['service'],
-                            'link': service['link']
-                        })
+# TODO adjust the links to be left and right
 
-print(streaming_services)
+# TODO fix the add review. it should be a button (Add Review). Also, the same user can not create more than 1 review
 
-# details.get('link')
-
-
+# TODO add date published to reviews
