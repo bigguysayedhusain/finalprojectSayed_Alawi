@@ -409,3 +409,72 @@ input[type="text"]:hover, input[type="search"]:hover, textarea:hover {
     color: #666;
     margin-top: 5px;
 }
+
+.my-portal {
+    margin-bottom: 20px;
+    margin-top: 80px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.my-portal  h2{
+    text-align: center;
+}
+.my-portal .my-portal-review {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+/* Styles for the Edit Review page */
+.edit-review-container {
+    width: 100%;
+    max-width: 600px; /* Limits the width of the form to 600px */
+    margin: 100px auto; /* Centers the container */
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Adds subtle shadow for depth */
+    background-color: #fff; /* White background */
+    border-radius: 8px; /* Rounded corners */
+}
+
+.edit-review-container h2 {
+    text-align: center; /* Centers the heading */
+    color: #333; /* Dark grey for text for better readability */
+    margin-bottom: 20px; /* Spacing below the header */
+}
+
+.edit-review-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-review-container label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555; /* Slightly lighter than the heading color */
+}
+
+.edit-review-container input,
+.edit-review-container textarea,
+.edit-review-container select {
+    padding: 10px;
+    margin-bottom: 15px; /* Spacing between form fields */
+    border: 1px solid #ccc; /* Light grey border */
+    border-radius: 4px; /* Rounded corners for inputs */
+}
+
+.edit-review-container button {
+    padding: 10px 15px;
+    background-color: #007BFF; /* Bootstrap primary blue */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.edit-review-container button:hover {
+    background-color: #0056b3; /* Darker shade of blue on hover */
+}
+
+/*min-height: 80vh;*/

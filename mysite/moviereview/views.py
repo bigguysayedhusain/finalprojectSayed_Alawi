@@ -1,6 +1,6 @@
 from django.views import View, generic
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, UpdateView, DeleteView
 from django.http import Http404
 from django.core.files.base import ContentFile
 from django.urls import reverse_lazy
@@ -13,10 +13,6 @@ from .models import Movie, Review
 
 class HomePageView(TemplateView):
     template_name = 'moviereview/home.html'
-
-
-class MyPortalView(TemplateView):
-    template_name = 'moviereview/my_portal.html'
 
 
 class FetchMovieData(View):
@@ -190,6 +186,40 @@ class ReviewedMoviesView(ListView):
         and annotate each movie with its average rating.
         """
         return Movie.objects.annotate(avg_rating=Avg('reviews__rating')).filter(reviews__isnull=False).distinct()
+
+
+class MyPortalView(ListView):
+    model = Review
+    template_name = 'moviereview/my_portal.html'
+    context_object_name = 'reviews'
+
+    def get_queryset(self):
+        """Filter reviews to only those created by the logged-in user."""
+        return Review.objects.filter(user=self.request.user).order_by('-created_at')
+
+
+class EditReviewView(UpdateView):
+    model = Review
+    form_class = ReviewForm
+    template_name = 'moviereview/edit_review.html'
+
+    def get_success_url(self):
+        """Return the URL to redirect after the successful update."""
+        return reverse_lazy('my_reviews')
+
+    def get_queryset(self):
+        """Ensure only the reviews belonging to the current user can be edited."""
+        return self.model.objects.filter(user=self.request.user)
+
+
+class DeleteReviewView(DeleteView):
+    model = Review
+    template_name = 'moviereview/del_rev_conf.html'
+    success_url = reverse_lazy('my_reviews')
+
+    def get_queryset(self):
+        """Ensure only the reviews belonging to the current user can be deleted."""
+        return self.model.objects.filter(user=self.request.user)
 
 
 class SignUpView(generic.CreateView):

@@ -1,7 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="home-container">
-    <h1>Welcome to My Portal Page</h1>
+<div class="my-portal">
+    <h2>My Reviews</h2>
+    {% for review in reviews %}
+    <div class="my-portal-review">
+        <h3><a href="{% url 'movie_detail' imdb_id=review.movie.imdb_id %}">{{ review.movie.title }}</a></h3>
+        <p>Rated: {{ review.rating }} / 10</p>
+        <p>{{ review.text }}</p>
+        <p>Reviewed on: {{ review.created_at|date:"Y-m-d" }}</p>
+        <a href="{% url 'edit_review' review.id %}">Edit</a> |
+        <a href="{% url 'delete_review' review.id %}">Delete</a>
+    </div>
+    {% empty %}
+    <p>You have not reviewed any movies yet.</p>
+    {% endfor %}
 </div>
 {% endblock %}
