@@ -39,7 +39,12 @@ You can download it from [python.org](https://www.python.org/downloads/).
 ### Installation
 Follow these steps to set up the project environment:
 
-1. **Start the development server:**
+1. Navigate in mysite folder:
+   ```bash
+   cd mysite
+   ```
+
+2. **Start the development server:**
    ```bash
    python manage.py runserver
    ```
