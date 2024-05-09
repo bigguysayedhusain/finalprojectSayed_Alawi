@@ -24,11 +24,14 @@ You can download it from [python.org](https://www.python.org/downloads/).
    - Navigate to the [Movies Tv Shows Database](https://rapidapi.com/amrelrafie/api/movies-tv-shows-database), and subscribe for an API
    - Navigate to [Streaming Availability](https://rapidapi.com/movie-of-the-night-movie-of-the-night-default/api/streaming-availability), and subscribe for an API
 
-
-3. $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ where to save the APIs
+   
 ### Dependencies
 
-To install the requirements for this project, run the following command:
+1. Configuring APIs
+   * Rename .env.sample to .env
+   * open .env file and insert your API Keys
+
+2. To install the requirements for this project, run the following command:
    ```bash
    pip install -r requirements.txt
    ```
