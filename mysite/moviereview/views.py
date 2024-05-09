@@ -7,8 +7,12 @@ from django.urls import reverse_lazy
 from django.contrib.auth import logout
 from django.db.models import Avg
 import requests
+from decouple import config
 from .forms import MovieSearchForm, SignUpForm, ReviewForm
 from .models import Movie, Review
+
+Movies_Tv_Shows_Database = config('Movies_Tv_Shows_Database')
+Streaming_Availability = config('Streaming_Availability')
 
 
 class HomePageView(TemplateView):
@@ -36,7 +40,7 @@ class FetchMovieData(View):
         querystring = {"title": movie_name}
         headers = {
             "Type": "get-movies-by-title",
-            "X-RapidAPI-Key": "192b8070d4mshdce2e96668d0f65p180a1ejsn041cca2faf18",
+            "X-RapidAPI-Key": Movies_Tv_Shows_Database,
             "X-RapidAPI-Host": "movies-tv-shows-database.p.rapidapi.com"
         }
         response = requests.get(url, headers=headers, params=querystring)
@@ -54,7 +58,7 @@ class MovieDetail(View):
             movie = Movie.objects.get(imdb_id=imdb_id)
             reviews = Review.objects.filter(movie=movie)
             average_rating = reviews.aggregate(Avg('rating'))['rating__avg'] if reviews.exists() else None
-            # streaming_services = self.fetch_streaming_info(imdb_id) TODO: Return the (streaming_services) variable here
+            streaming_services = self.fetch_streaming_info(imdb_id)
         except Movie.DoesNotExist:
             movie, streaming_services = self.handle_movie_not_found(imdb_id)
             reviews = []
@@ -66,7 +70,7 @@ class MovieDetail(View):
             'reviews': reviews,
             'form': form,
             'average_rating': average_rating,
-            # 'streaming_services': streaming_services TODO: Return the (streaming_services) variable here
+            'streaming_services': streaming_services
         })
 
     def post(self, request, imdb_id, *args, **kwargs):
@@ -81,13 +85,13 @@ class MovieDetail(View):
 
         reviews = Review.objects.filter(movie=movie)
         average_rating = reviews.aggregate(Avg('rating'))['rating__avg'] if reviews.exists() else None
-        # streaming_services = self.fetch_streaming_info(imdb_id) TODO: Return the (streaming_services) variable here
+        streaming_services = self.fetch_streaming_info(imdb_id)
         return render(request, self.template_name, {
             'movie': movie,
             'reviews': reviews,
             'form': form,
             'average_rating': average_rating,
-            # 'streaming_services': streaming_services  # TODO: Return the (streaming_services) variable here
+            'streaming_services': streaming_services
         })
 
     def get_movie(self, imdb_id):
@@ -102,8 +106,8 @@ class MovieDetail(View):
             raise Http404("Movie not found in external database.")
 
         movie = self.create_movie_from_details(movie_details, imdb_id)
-        # streaming_services = self.fetch_streaming_info(imdb_id) TODO: Return the (streaming_services) variable here
-        return movie  # TODO: Return the (streaming_services) variable here
+        streaming_services = self.fetch_streaming_info(imdb_id)
+        return movie, streaming_services
 
     def create_movie_from_details(self, movie_details, imdb_id):
         poster_url = self.fetch_movie_poster(imdb_id)
@@ -130,7 +134,7 @@ class MovieDetail(View):
         querystring = {"movieid": imdb_id}
         headers = {
             "Type": "get-movie-details",
-            "X-RapidAPI-Key": "192b8070d4mshdce2e96668d0f65p180a1ejsn041cca2faf18",
+            "X-RapidAPI-Key": Movies_Tv_Shows_Database,
             "X-RapidAPI-Host": "movies-tv-shows-database.p.rapidapi.com"
         }
         response = requests.get(url, headers=headers, params=querystring)
@@ -143,7 +147,7 @@ class MovieDetail(View):
         querystring = {"movieid": imdb_id}
         headers = {
             "Type": "get-movies-images-by-imdb",
-            "X-RapidAPI-Key": "192b8070d4mshdce2e96668d0f65p180a1ejsn041cca2faf18",
+            "X-RapidAPI-Key": Movies_Tv_Shows_Database,
             "X-RapidAPI-Host": "movies-tv-shows-database.p.rapidapi.com"
         }
         response = requests.get(url, headers=headers, params=querystring)
@@ -155,7 +159,7 @@ class MovieDetail(View):
         url = "https://streaming-availability.p.rapidapi.com/get"
         querystring = {"output_language": "en", "imdb_id": imdb_id}
         headers = {
-            "X-RapidAPI-Key": "192b8070d4mshdce2e96668d0f65p180a1ejsn041cca2faf18",
+            "X-RapidAPI-Key": Streaming_Availability,
             "X-RapidAPI-Host": "streaming-availability.p.rapidapi.com"
         }
         response = requests.get(url, headers=headers, params=querystring)
