@@ -465,7 +465,7 @@ input[type="text"]:hover, input[type="search"]:hover, textarea:hover {
 
 .edit-review-container button {
     padding: 10px 15px;
-    background-color: #007BFF; /* Bootstrap primary blue */
+    background-color: #293241; /* Bootstrap primary blue */
     color: white;
     border: none;
     border-radius: 4px;
@@ -474,7 +474,50 @@ input[type="text"]:hover, input[type="search"]:hover, textarea:hover {
 }
 
 .edit-review-container button:hover {
-    background-color: #0056b3; /* Darker shade of blue on hover */
+    background-color: #89c2d9; /* Darker shade of blue on hover */
+}
+.delete-review-container {
+    max-width: 400px; /* Restricts the width of the form */
+    margin: 30px auto; /* Centers the form vertically and horizontally */
+    margin: 100px auto; /* Centers the container */
+    padding: 20px;
+    background-color: #fff; /* White background for the form */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Adds subtle shadow for depth */
+    text-align: center; /* Aligns text and elements to the center */
+    border-radius: 8px; /* Rounds corners */
+}
+
+.delete-review-container h2 {
+    color: #333; /* Dark grey for text */
+    margin-bottom: 20px; /* Space below the header */
+}
+
+.delete-review-container button,
+.delete-review-container a {
+    all: unset;
+    width: 100px;  /* Uniform width */
+    padding: 10px 15px;  /* Uniform padding */
+    font-size: 16px;  /* Uniform font size */
+    text-align: center;  /* Center text */
+    line-height: 20px;  /* Adjust line height for vertical alignment */
+    margin: 5px;  /* Space around buttons */
+    background-color: #293241; /* Primary button color */
+    color: white;  /* Text color */
+    border: none;  /* Remove default borders */
+    border-radius: 5px;  /* Uniform rounded corners */
+    display: inline-block;  /* Align buttons in line */
+    text-decoration: none;  /* Remove underline from links */
+    cursor: pointer;  /* Cursor to indicate clickable */
+    vertical-align: middle;  /* Align buttons vertically */
+}
+
+.delete-review-container a {
+    background-color: #6c757d; /* Bootstrap secondary grey */
+}
+
+.delete-review-container button:hover,
+.delete-review-container a:hover {
+    opacity: 0.8; /* Slight transparency on hover for interaction feedback */
 }
 
 /*min-height: 80vh;*/

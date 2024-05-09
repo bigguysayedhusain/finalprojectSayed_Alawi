@@ -54,7 +54,7 @@ class MovieDetail(View):
             movie = Movie.objects.get(imdb_id=imdb_id)
             reviews = Review.objects.filter(movie=movie)
             average_rating = reviews.aggregate(Avg('rating'))['rating__avg'] if reviews.exists() else None
-            streaming_services = self.fetch_streaming_info(imdb_id)
+            # streaming_services = self.fetch_streaming_info(imdb_id) TODO: Return the (streaming_services) variable here
         except Movie.DoesNotExist:
             movie, streaming_services = self.handle_movie_not_found(imdb_id)
             reviews = []
@@ -66,7 +66,7 @@ class MovieDetail(View):
             'reviews': reviews,
             'form': form,
             'average_rating': average_rating,
-            'streaming_services': streaming_services
+            # 'streaming_services': streaming_services TODO: Return the (streaming_services) variable here
         })
 
     def post(self, request, imdb_id, *args, **kwargs):
@@ -81,13 +81,13 @@ class MovieDetail(View):
 
         reviews = Review.objects.filter(movie=movie)
         average_rating = reviews.aggregate(Avg('rating'))['rating__avg'] if reviews.exists() else None
-        streaming_services = self.fetch_streaming_info(imdb_id)
+        # streaming_services = self.fetch_streaming_info(imdb_id) TODO: Return the (streaming_services) variable here
         return render(request, self.template_name, {
             'movie': movie,
             'reviews': reviews,
             'form': form,
             'average_rating': average_rating,
-            'streaming_services': streaming_services
+            # 'streaming_services': streaming_services  # TODO: Return the (streaming_services) variable here
         })
 
     def get_movie(self, imdb_id):
@@ -102,8 +102,8 @@ class MovieDetail(View):
             raise Http404("Movie not found in external database.")
 
         movie = self.create_movie_from_details(movie_details, imdb_id)
-        streaming_services = self.fetch_streaming_info(imdb_id)
-        return movie, streaming_services
+        # streaming_services = self.fetch_streaming_info(imdb_id) TODO: Return the (streaming_services) variable here
+        return movie  # TODO: Return the (streaming_services) variable here
 
     def create_movie_from_details(self, movie_details, imdb_id):
         poster_url = self.fetch_movie_poster(imdb_id)
@@ -205,7 +205,7 @@ class EditReviewView(UpdateView):
 
     def get_success_url(self):
         """Return the URL to redirect after the successful update."""
-        return reverse_lazy('my_reviews')
+        return reverse_lazy('myportal')
 
     def get_queryset(self):
         """Ensure only the reviews belonging to the current user can be edited."""
@@ -215,7 +215,7 @@ class EditReviewView(UpdateView):
 class DeleteReviewView(DeleteView):
     model = Review
     template_name = 'moviereview/del_rev_conf.html'
-    success_url = reverse_lazy('my_reviews')
+    success_url = reverse_lazy('myportal')
 
     def get_queryset(self):
         """Ensure only the reviews belonging to the current user can be deleted."""

@@ -33,15 +33,15 @@
             </div>
             <div class="movie-info-section">
                 <h2>Streaming Availability</h2>
-                {% if streaming_services %}
-                    <ul class="flow-direction-row gap">
-                        {% for service in streaming_services %}
-                        <li><a href="{{ service.link }}" target="_blank">{{ service.service }}</a></li>
-                        {% endfor %}
-                    </ul>
-                {% else %}
-                    <p>No streaming services available for this movie.</p>
-                {% endif %}
+<!--                {% if streaming_services %}-->
+<!--                    <ul class="flow-direction-row gap">-->
+<!--                        {% for service in streaming_services %}-->
+<!--                        <li><a href="{{ service.link }}" target="_blank">{{ service.service }}</a></li>-->
+<!--                        {% endfor %}-->
+<!--                    </ul>-->
+<!--                {% else %}-->
+<!--                    <p>No streaming services available for this movie.</p>-->
+<!--                {% endif %}-->
             </div>
         </div>
     </div>
