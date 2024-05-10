@@ -1,3 +1,4 @@
+
 from django.views import View, generic
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView, UpdateView, DeleteView
@@ -18,6 +19,29 @@ Streaming_Availability = config('Streaming_Availability')
 
 class HomePageView(TemplateView):
     template_name = 'moviereview/home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Fetch trending movies and add them to the context
+        context['trending_movies'] = self.fetch_trending_movies()
+        return context
+
+    def fetch_trending_movies(self):
+        url = "https://movies-tv-shows-database.p.rapidapi.com/"
+        querystring = {"page": "1"}
+        headers = {
+            "Type": "get-trending-movies",
+            "X-RapidAPI-Key": Movies_Tv_Shows_Database,
+            "X-RapidAPI-Host": "movies-tv-shows-database.p.rapidapi.com"
+        }
+        try:
+            response = requests.get(url, headers=headers, params=querystring)
+            response.raise_for_status()  # Ensures HTTPError is raised for bad responses
+            data = response.json()
+            return data.get('movie_results', [])
+        except requests.RequestException as e:
+            print(f"Error fetching trending movies: {e}")
+            return []
 
 
 class FetchMovieData(View):

@@ -1,7 +1,31 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="home-container">
-    <h1>Welcome to Sayed Movie Meter Portal</h1>
-</div>
+    <div class="flow-direction-column">
+        <div class="home-container">
+            <h1>Welcome to Sayed Movie Meter Portal</h1>
+            <p>
+                Welcome to Movie Review Hub, your ultimate destination for discovering and discussing everything about
+                movies! Dive into our vast collection of detailed reviews, explore movie ratings, and share your own
+                insights about your favorite films. Whether you're a casual moviegoer or a film aficionado, our community
+                is here to enhance your movie-watching experience. Join us in celebrating the art of cinema, discover new
+                favorites, and engage with fellow movie lovers today!
+            </p>
+        </div>
+
+        <div class="trending-movie">
+            <h2>Trending Movies</h2>
+            {% if trending_movies %}
+                <ul>
+                    {% for movie in trending_movies %}
+                        <li>
+                            <a href="{% url 'movie_detail' movie.imdb_id %}">{{ movie.title }} ({{ movie.year }})</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No trending movies available right now.</p>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}

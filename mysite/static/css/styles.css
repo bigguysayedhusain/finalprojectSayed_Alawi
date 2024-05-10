@@ -130,10 +130,7 @@ input[type="text"]:hover, input[type="search"]:hover, textarea:hover {
     margin-top: 0px;
     /*margin-bottom: -20px;*/
 }
-.home-container {
-    text-align: center;
-    padding-top: 150px; /* Adjust based on your header size */
-}
+
 /* Search Container */
 .search-result-container {
     flex-direction: column;
@@ -527,5 +524,54 @@ input[type="text"]:hover, input[type="search"]:hover, textarea:hover {
 .delete-review-container button:hover,
 .delete-review-container a:hover {
     opacity: 0.8; /* Slight transparency on hover for interaction feedback */
+}
+.home-container {
+    text-align: center;
+    padding-top: 75px; /* Adjust based on your header size */
+    width: 80%;
+    margin: 20px auto;
+}
+.home-container p {
+    font-size: 20px;
+    text-align: justify;
+    padding-top: 20px;
+}
+.trending-movie {
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 30%;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+.trending-movie h2 {
+    color: #130101;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.trending-movie ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.trending-movie li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.trending-movie li:last-child {
+    border-bottom: none;
+}
+
+.trending-movie a {
+    color: #293241;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.trending-movie a:hover {
+    text-decoration: underline;
 }
 /*min-height: 80vh;*/
