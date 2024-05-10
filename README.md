@@ -59,7 +59,7 @@ Follow these steps to set up the project environment:
 
 
 2. **Create New Migrations For moviereview App:**
-   ```bash
+   ```
    python manage.py makemigrations moviereview
    ```
 
