@@ -414,14 +414,16 @@ input[type="text"]:hover, input[type="search"]:hover, textarea:hover {
     margin-bottom: 20px;
     margin-top: 80px;
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    /*border: 1px solid #ccc;*/
+    /*border-radius: 5px;*/
+    min-width: 100%;
 }
 .my-portal  h2{
     text-align: center;
 }
 .my-portal .my-portal-review {
     margin-bottom: 20px;
+    background-color: #ffffff;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
