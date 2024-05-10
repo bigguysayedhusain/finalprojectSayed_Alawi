@@ -96,11 +96,13 @@ Visit http://127.0.0.1:8000/admin to access the admin panel using your superuser
   - Initial Release
 
 ## License
-This project is released under the CC0 1.0 Universal (CC0 1.0) Public Domain Dedication. You can copy, modify, distribute, and perform the work, even for commercial purposes, all without asking permission. More details can be found at [creativecommons.org/publicdomain/zero/1.0/](https://creativecommons.org/publicdomain/zero/1.0/).
+This project is released under the CC0 1.0 Universal (CC0 1.0) Public Domain Dedication. You can copy, modify, 
+distribute, and perform the work, even for commercial purposes, all without asking permission. More details can 
+be found at [creativecommons.org/publicdomain/zero/1.0/](https://creativecommons.org/publicdomain/zero/1.0/).
 
 ## Acknowledgments
 - [Django Documentation](https://docs.djangoproject.com/en/4.0/).
-- [Bootstrap for front-end styling.](https://getbootstrap.com/)
+- [RapidAPT](https://rapidapi.com/hub)
 - [OpenAI - ChatGPT.](https://chat.openai.com/)
 
 ---

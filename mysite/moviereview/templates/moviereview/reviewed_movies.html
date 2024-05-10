@@ -2,16 +2,21 @@
 
 {% block content %}
 <div class="reviewed-movie-grid">
-    {% for movie in movies %}
-    <div class="reviewed-movie-container">
-        <a href="{% url 'movie_detail' imdb_id=movie.imdb_id %}">
-            <img src="{{ movie.poster.url }}" alt="{{ movie.title }} Poster" class="reviewed-movie-poster">
-            <div class="reviewed-movie-info">
-                <h3>{{ movie.title }}</h3>
-                <p>Users Rating: {{ movie.avg_rating|floatformat:1 }} / 10</p>
-            </div>
-        </a>
-    </div>
-    {% endfor %}
+    {% if movies %}
+        {% for movie in movies %}
+        <div class="reviewed-movie-container">
+            <a href="{% url 'movie_detail' imdb_id=movie.imdb_id %}">
+                <img src="{{ movie.poster.url }}" alt="{{ movie.title }} Poster" class="reviewed-movie-poster">
+                <div class="reviewed-movie-info">
+                    <h3>{{ movie.title }}</h3>
+                    <p>Users Rating: {{ movie.avg_rating|floatformat:1 }} / 10</p>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>There are no reviewed movies yet.</p>
+    {% endif %}
 </div>
 {% endblock %}
+
