@@ -74,7 +74,7 @@ class FetchMovieData(View):
             if data.get('search_results', 0) > 0:
                 return data['movie_results']
             else:
-                return []  # Returning an empty list if no results
+                return []
         return []
 
 
@@ -205,7 +205,6 @@ class MovieDetail(View):
                     'link': service['link']
                 })
         return streaming_services
-        # return []
 
 
 class ReviewedMoviesView(ListView):
