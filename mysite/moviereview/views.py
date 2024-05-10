@@ -5,6 +5,7 @@ from django.http import Http404
 from django.core.files.base import ContentFile
 from django.urls import reverse_lazy
 from django.contrib.auth import logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Avg
 import requests
 from decouple import config
@@ -192,7 +193,7 @@ class ReviewedMoviesView(ListView):
         return Movie.objects.annotate(avg_rating=Avg('reviews__rating')).filter(reviews__isnull=False).distinct()
 
 
-class MyPortalView(ListView):
+class MyPortalView(LoginRequiredMixin, ListView):
     model = Review
     template_name = 'moviereview/my_portal.html'
     context_object_name = 'reviews'
@@ -202,7 +203,7 @@ class MyPortalView(ListView):
         return Review.objects.filter(user=self.request.user).order_by('-created_at')
 
 
-class EditReviewView(UpdateView):
+class EditReviewView(LoginRequiredMixin, UpdateView):
     model = Review
     form_class = ReviewForm
     template_name = 'moviereview/edit_review.html'
@@ -216,7 +217,7 @@ class EditReviewView(UpdateView):
         return self.model.objects.filter(user=self.request.user)
 
 
-class DeleteReviewView(DeleteView):
+class DeleteReviewView(LoginRequiredMixin, DeleteView):
     model = Review
     template_name = 'moviereview/del_rev_conf.html'
     success_url = reverse_lazy('myportal')

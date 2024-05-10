@@ -50,7 +50,19 @@
         {% if reviews %}
             <ul>
                 {% for review in reviews %}
-                <li>{{ review.user.username }} ({{ review.rating }}/10): "{{ review.text }}"</li>
+                <li>
+                    <strong>User:</strong> {{ review.user.username }}
+                    <br>
+                    <br>
+                    <strong>Date:</strong> {{ review.created_at|date:"Y-m-d" }}
+                    <br>
+                    <br>
+                    <strong>Rating:</strong> {{ review.rating }}/10
+                    <br>
+                    <br>
+                    <strong>Review:</strong>
+                    <div class="review-text-box">{{ review.text }}</div>
+                </li>
                 {% endfor %}
             </ul>
         {% else %}

@@ -409,7 +409,14 @@ input[type="text"]:hover, input[type="search"]:hover, textarea:hover {
     color: #666;
     margin-top: 5px;
 }
-
+.review-text-box {
+    background-color: white; /* Sets the background color to white */
+    border: 1px solid #ccc; /* Adds a light grey border */
+    border-radius: 10px; /* Rounded corners */
+    padding: 10px; /* Adds space inside the box, around the text */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Optional: adds a subtle shadow for depth */
+    margin-top: 5px;
+}
 .my-portal {
     margin-bottom: 20px;
     margin-top: 80px;
@@ -521,5 +528,4 @@ input[type="text"]:hover, input[type="search"]:hover, textarea:hover {
 .delete-review-container a:hover {
     opacity: 0.8; /* Slight transparency on hover for interaction feedback */
 }
-
 /*min-height: 80vh;*/
