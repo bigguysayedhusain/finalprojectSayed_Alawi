@@ -70,7 +70,11 @@ class FetchMovieData(View):
         }
         response = requests.get(url, headers=headers, params=querystring)
         if response.status_code == 200:
-            return response.json()['movie_results']
+            data = response.json()
+            if data.get('search_results', 0) > 0:
+                return data['movie_results']
+            else:
+                return []  # Returning an empty list if no results
         return []
 
 

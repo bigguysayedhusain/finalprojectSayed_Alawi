@@ -10,13 +10,19 @@
         </form>
     </div>
     <div class="results-container">
-        {% for movie in movies %}
-        <a href="{% url 'movie_detail' movie.imdb_id %}" class="movie-link">
-            <div class="movie-result">
-                <h2>{{ movie.title }} ({{ movie.year }})</h2>
-            </div>
-        </a>
-        {% endfor %}
+        {% if movies is not None %}
+            {% if movies %}
+                {% for movie in movies %}
+                <a href="{% url 'movie_detail' movie.imdb_id %}" class="movie-link">
+                    <div class="movie-result">
+                        <h2>{{ movie.title }} ({{ movie.year }})</h2>
+                    </div>
+                </a>
+                {% endfor %}
+            {% else %}
+                <p>The search did not yield any results. Please try again with different terms.</p>
+            {% endif %}
+        {% endif %}
     </div>
 </div>
 {% endblock %}
